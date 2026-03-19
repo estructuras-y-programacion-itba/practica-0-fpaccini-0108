@@ -49,6 +49,60 @@ def turno_jugador1():
         
         
 
-        
-dado=turno_jugador1()
-print(dado)
+
+
+def calcular_puntos(dados, categoria):
+    
+    # GENERALA
+    if categoria == "G":
+        if dados.count(dados[0]) == 5:
+            return 50
+        else:
+            return 0
+
+    # POKER
+    elif categoria == "P":
+        for d in dados:
+            if dados.count(d) >= 4:
+                return 40
+        return 0
+
+    # FULL
+    elif categoria == "F":
+        valores = []
+        for d in dados:
+            if d not in valores:
+                valores.append(d)
+
+        if len(valores) == 2:
+            if dados.count(valores[0]) == 3 and dados.count(valores[1]) == 2:
+                return 30
+            if dados.count(valores[1]) == 3 and dados.count(valores[0]) == 2:
+                return 30
+        return 0
+
+    # ESCALERA
+    elif categoria == "E":
+        ordenados = sorted(dados)
+
+        if ordenados == [1,2,3,4,5] or ordenados == [2,3,4,5,6]:
+            return 20
+        else:
+            return 0
+
+    # NUMEROS 1-6
+    else:
+        numero = int(categoria)
+        puntos = dados.count(numero) * numero
+        return puntos
+    
+    
+dados = turno_jugador1()
+
+print("Dados:", dados)
+
+categoria = input("Elegí donde anotar (E, F, P, G o 1-6): ")
+
+puntos = calcular_puntos(dados, categoria)
+
+print("Sumaste", puntos, "puntos")
